@@ -18,6 +18,7 @@
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
           <td>コメント数:<span id="comment_count"><%= @book.book_comments.count %></span></td>
+          <td>閲覧数: <%= @book.read_counts.count %></td>
           <td id="favorite_buttons_<%= @book.id %>">
             <%= render "favorites/favorite", book: @book %>
           </td>
