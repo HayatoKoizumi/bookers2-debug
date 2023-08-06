@@ -22,6 +22,16 @@ class BooksController < ApplicationController
     unless ReadCount.where(created_at: Time.zone.now.all_day).find_by(user_id: current_user.id, book_id: @book.id)
       current_user.read_counts.create(book_id: @book.id)
     end
+    
+    if params[:latest]
+       @books = Book.latest
+    elsif params[:old]
+     @books = Book.old
+    elsif params[:star_count]
+     @books = Book.star_count
+    else
+     @books = Book.all
+    end
   end
 
   def create
