@@ -45,7 +45,7 @@
         <% end %>
       <% end %>
     </td>
-  <% elsif user.email = "guest@example.com" %>
+  <% elsif user.guest_user? %>
     <td>
       <%= render "relationships/btn", user: user %>
       <% unless @user == current_user %>
