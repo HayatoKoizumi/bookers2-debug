@@ -8,13 +8,12 @@ class BooksController < ApplicationController
     end
     @newbook = Book.new
     @book_comment = BookComment.new
-
   end
 
   def index
     to = Time.current.at_end_of_day
     from = (to - 6.day).at_beginning_of_day
-    @books = Book.all.sort {|a,b|
+    @books = Book.all.sort { |a, b|
       b.favorites.where(created_at: from...to).size <=>
       a.favorites.where(created_at: from...to).size
     }
@@ -22,15 +21,15 @@ class BooksController < ApplicationController
     unless ReadCount.where(created_at: Time.zone.now.all_day).find_by(user_id: current_user.id, book_id: @book.id)
       current_user.read_counts.create(book_id: @book.id)
     end
-    
+
     if params[:latest]
-       @books = Book.latest
+      @books = Book.latest
     elsif params[:old]
-     @books = Book.old
+      @books = Book.old
     elsif params[:star_count]
-     @books = Book.star_count
+      @books = Book.star_count
     else
-     @books = Book.all
+      @books = Book.all
     end
   end
 
@@ -41,7 +40,7 @@ class BooksController < ApplicationController
       redirect_to book_path(@book), notice: "You have created book successfully."
     else
       @books = Book.all
-      render 'index'
+      render "index"
     end
   end
 
@@ -65,16 +64,14 @@ class BooksController < ApplicationController
   end
 
   private
-
-  def book_params
-    params.require(:book).permit(:title, :body, :image, :star, :category)
-  end
-
-  def ensure_correct_user
-    @book = Book.find(params[:id])
-    unless @book.user == current_user
-      redirect_to books_path
+    def book_params
+      params.require(:book).permit(:title, :body, :image, :star, :category)
     end
-  end
 
+    def ensure_correct_user
+      @book = Book.find(params[:id])
+      unless @book.user == current_user
+        redirect_to books_path
+      end
+    end
 end

@@ -8,24 +8,24 @@ class Book < ApplicationRecord
 
   has_many :read_counts, dependent: :destroy
 
-  validates :title,presence:true
-  validates :body,presence:true,length:{maximum:200}
+  validates :title, presence: true
+  validates :body, presence: true, length: { maximum: 200 }
   validates :category, presence: true
 
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)
   end
 
-# 検索方法分岐
+  # 検索方法分岐
   def self.looks(search, word)
     if search == "perfect"
-      @book = Book.where("title LIKE?","#{word}")
+      @book = Book.where("title LIKE?", "#{word}")
     elsif search == "forward"
-      @book = Book.where("title LIKE?","#{word}%")
+      @book = Book.where("title LIKE?", "#{word}%")
     elsif search == "backward"
-      @book = Book.where("title LIKE?","%#{word}")
+      @book = Book.where("title LIKE?", "%#{word}")
     elsif search == "partial"
-      @book = Book.where("title LIKE?","%#{word}%")
+      @book = Book.where("title LIKE?", "%#{word}%")
     else
       @book = Book.all
     end
@@ -41,8 +41,8 @@ class Book < ApplicationRecord
   scope :created_4day_ago, -> { where(created_at: 4.day.ago.all_day) } # 4日前
   scope :created_5day_ago, -> { where(created_at: 5.day.ago.all_day) } # 5日前
   scope :created_6day_ago, -> { where(created_at: 6.day.ago.all_day) } # 6日前
-  
-  scope :latest, -> {order(created_at: :desc)}
-  scope :old, -> {order(created_at: :asc)}
-  scope :star_count, -> {order(star: :desc)}
+
+  scope :latest, -> { order(created_at: :desc) }
+  scope :old, -> { order(created_at: :asc) }
+  scope :star_count, -> { order(star: :desc) }
 end

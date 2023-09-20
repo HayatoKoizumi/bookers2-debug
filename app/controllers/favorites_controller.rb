@@ -1,5 +1,4 @@
 class FavoritesController < ApplicationController
-
   def create
     @book = Book.find(params[:book_id])
     favorite = @book.favorites.new(user_id: current_user.id)
@@ -15,5 +14,4 @@ class FavoritesController < ApplicationController
     # app/views/favorites/destroy.js.erbを参照する
     # redirect_back (fallback_location: books_path) （非同期通信化により削除）
   end
-
 end
