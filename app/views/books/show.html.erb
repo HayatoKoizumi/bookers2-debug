@@ -22,6 +22,7 @@
           <td id="favorite_buttons_<%= @book.id %>">
             <%= render "favorites/favorite", book: @book %>
           </td>
+          <!--星5レビュー機能-->
           <td><%= render "static_rate", book: @book %></td>
           <td>
         　　<% if @book.category.present? %>
